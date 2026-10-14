@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Cardápio | Pizzaria Roma{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Nosso Cardápio</h1>
+    <p>Escolha sua pizza favorita!</p>
+</section>
+
+{% for categoria in categorias %}
+{{ categoria.nome }}
+
+    <div class="produtos-grid">
+        {% for produto in categoria.produtos.all %}
+            {% if produto.disponivel %}
+                <article class="produto-card">
+                    {% if produto.imagem %}
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                    {% endif %}
+                    <div class="produto-info">
+                        <h3>{{ produto.nome }}</h3>
+                        <p>{{ produto.descricao }}</p>
+                        <p class="preco">R$ {{ produto.preco }}</p>
+                        <form method="post" action="{% url 'adicionar_ao_carrinho' produto.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Adicionar ao carrinho</button>
+                        </form>
+                    </div>
+                </article>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+{% empty %}
+Nosso cardápio está sendo preparado. Volte em breve!
+{% endfor %}
+{% endblock %}

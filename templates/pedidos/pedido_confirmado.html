@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Pedido Confirmado | Pizzaria Roma{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Pedido realizado com sucesso!</h1>
+    <p>Obrigado por escolher a Pizzaria Roma.</p>
+</section>
+<div class="pedido-confirmado">
+    <h2>Seu pedido foi registrado!</h2>
+    <p><strong>Número do pedido:</strong> #{{ pedido.id }}</p>
+    <p><strong>Nome:</strong> {{ pedido.nome_cliente }}</p>
+    <p><strong>Valor total:</strong> R$ {{ pedido.valor_total|floatformat:2 }}</p>
+    <p>Guarde o número do pedido para acompanhar o andamento.</p>
+<a href="{% url 'acompanhar_pedido' %}" class="btn">Acompanhar pedido</a>
+<a href="{% url 'cardapio' %}" class="btn">Voltar ao cardápio</a>
+</div>
+{% endblock %}

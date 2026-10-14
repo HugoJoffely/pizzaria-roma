@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrinho | Pizzaria Roma{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Meu Carrinho</h1>
+    <p>Confira seus produtos antes de finalizar o pedido.</p>
+</section>
+
+{% if itens %}
+Produto
+Quantidade
+Preço
+Subtotal
+Ação
+{% for item in itens %}
+{{ item.nome }}
+{{ item.quantidade }}
+R$ {{ item.preco|floatformat:2 }}
+R$ {{ item.subtotal|floatformat:2 }}
+{% csrf_token %}
+Remover
+{% endfor %}
+<h2 class="total">Total: R$ {{ total|floatformat:2 }}</h2>
+<section class="formulario">
+    <h2>Dados para entrega</h2>
+    <form method="post" action="{% url 'finalizar_pedido' %}">
+        {% csrf_token %}
+        <label for="nome_cliente">Nome completo</label>
+        <input type="text" id="nome_cliente" name="nome_cliente" required>
+        <label for="telefone_cliente">Telefone</label>
+        <input type="tel" id="telefone_cliente" name="telefone_cliente" required>
+        <label for="endereco_entrega">Endereço de entrega</label>
+        <textarea id="endereco_entrega" name="endereco_entrega" required></textarea>
+        <button type="submit">Finalizar pedido</button>
+    </form>
+</section>
+
+{% else %}
+Seu carrinho está vazio.
+Voltar ao cardápio
+{% endif %}
+{% endblock %}
